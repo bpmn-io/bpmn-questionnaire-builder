@@ -1,5 +1,10 @@
 body {
   padding-top: 5rem;
+  font-family: 'Droid Sans', sans-serif;
+}
+
+.navbar {
+  background-color: #52B415;
 }
 
 .container {

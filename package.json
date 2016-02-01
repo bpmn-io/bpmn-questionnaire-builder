@@ -4,7 +4,7 @@
   "description": "Create your own questionnaire on BPMN with ease.",
   "main": "client/lib/index.js",
   "scripts": {
-    "auto-build": "watchify client/lib/index.js -o dist/index.js"
+    "auto-build": "watchify client/index.js -o dist/index.js"
   },
   "repository": {
     "type": "git",
