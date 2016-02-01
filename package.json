@@ -1,0 +1,36 @@
+{
+  "name": "bpmn-questionnaire-builder",
+  "version": "0.1.0",
+  "description": "Create your own questionnaire on BPMN with ease.",
+  "main": "client/lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PHILIPPFROMME/bpmn-questionnaire-builder.git"
+  },
+  "keywords": [
+    "bpmn",
+    "bpmn-js",
+    "bpmn-questionnaire",
+    "builder"
+  ],
+  "author": "Philipp Fromme",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PHILIPPFROMME/bpmn-questionnaire-builder/issues"
+  },
+  "homepage": "https://github.com/PHILIPPFROMME/bpmn-questionnaire-builder#readme",
+  "dependencies": {
+    "main-loop": "3.2.0",
+    "virtual-dom": "2.1.1"
+  },
+  "devDependencies": {
+    "browserify": "13.0.0",
+    "watchify": "3.7.0"
+  },
+  "scripts": {
+    "auto-build": "watchify client/lib/index.js -o dist/index.js"
+  }
+}
