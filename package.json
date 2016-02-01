@@ -4,7 +4,7 @@
   "description": "Create your own questionnaire on BPMN with ease.",
   "main": "client/lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "auto-build": "watchify client/lib/index.js -o dist/index.js"
   },
   "repository": {
     "type": "git",
@@ -28,9 +28,7 @@
   },
   "devDependencies": {
     "browserify": "13.0.0",
+    "lodash": "4.1.0",
     "watchify": "3.7.0"
-  },
-  "scripts": {
-    "auto-build": "watchify client/lib/index.js -o dist/index.js"
   }
 }
