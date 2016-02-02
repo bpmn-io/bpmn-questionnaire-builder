@@ -146,14 +146,14 @@ BpmnQuestionnaireBuilder.prototype.update = function(options, equal) {
     this.state = options;
   } else {
     
-    // Update state
+    // Update state and mark as dirty
     assign(this.state, options);
   }
 
   // Finally push updated state to main-loop
   this.loop.update(this.state);
 
-  console.log(this.questionnaire.state);
+  console.log(this.state);
 };
 
 BpmnQuestionnaireBuilder.prototype.resetBuilder = function() {
@@ -195,7 +195,7 @@ BpmnQuestionnaireBuilder.createType = function(spec) {
     });
 
     var html = [
-      h('div.alert.alert-info', spec.type),
+      h('div.alert.alert-success', spec.type),
       content
     ];
 
@@ -236,7 +236,7 @@ Download.prototype.render = function(state) {
   var html = [
     h('div.row', 
       h('div.col-md-12',
-        h('a.btn.btn-primary.btn-block', {
+        h('a.btn.btn-primary-outline.btn-block', {
           onclick: download
         }, 'Fragebogen speichern')
       )
@@ -270,7 +270,7 @@ function Question(builder) {
   this.state = cloneDeep(this.initState);
 }
 
-Question.prototype.render = function() {
+Question.prototype.render = function(index) {
 
   var that = this;
 
@@ -278,7 +278,9 @@ Question.prototype.render = function() {
   function removeQuestion() {
     that.builder.questions.splice(that.builder.questions.indexOf(that), 1);
 
-    that.builder.update({});
+    that.builder.update({
+      dirty: true
+    });
   }
 
   function changeType(value) {
@@ -300,7 +302,7 @@ Question.prototype.render = function() {
     h('li.list-group-item', [
       h('div.row', [
           h('div.col-sm-8',
-            h('h2', 'Frage')
+            h('h3', 'Frage ' + (index + 1) + ' von ' + this.builder.questions.length)
           ),
           h('div.col-sm-4',
             h('button.btn.btn-primary-outline.btn-block', {
@@ -357,6 +359,15 @@ Question.prototype.update = function(options, equal) {
 
   // Finally kick off rendering
   this.builder.update({});
+
+  console.log(this.state);
+};
+
+Question.prototype.resetQuestion = function() {
+  
+  // Reset global state to initial state
+  this.update(this.initState, true);
+
 };
 
 module.exports = Question;
@@ -395,11 +406,19 @@ Questionnaire.prototype.render = function(state) {
     that.update({
       name: value
     });
+    
+    that.builder.update({
+      dirty: true
+    });
   }
 
   function updateIntro(value) {
     that.update({
       intro: value
+    });
+
+    that.builder.update({
+      dirty: true
     });
   }
 
@@ -476,6 +495,8 @@ Questionnaire.prototype.update = function(options, equal) {
 
   // Finally kick off rendering
   this.builder.update({});
+
+  console.log(this.state);
 };
 
 Questionnaire.prototype.resetQuestionnaire = function() {
@@ -510,14 +531,16 @@ Questions.prototype.render = function(state) {
     );
 
     // Finally kick off rendering
-    that.builder.update({});
+    that.builder.update({
+      dirty: true
+    });
   }
 
   var questions = [];
 
-  this.builder.questions.forEach(function(question) {
+  this.builder.questions.forEach(function(question, index) {
     questions.push(
-      question.render()
+      question.render(index)
     );
   });
 

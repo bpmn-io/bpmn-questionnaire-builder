@@ -20,7 +20,7 @@ function Question(builder) {
   this.state = cloneDeep(this.initState);
 }
 
-Question.prototype.render = function() {
+Question.prototype.render = function(index) {
 
   var that = this;
 
@@ -28,7 +28,9 @@ Question.prototype.render = function() {
   function removeQuestion() {
     that.builder.questions.splice(that.builder.questions.indexOf(that), 1);
 
-    that.builder.update({});
+    that.builder.update({
+      dirty: true
+    });
   }
 
   function changeType(value) {
@@ -50,7 +52,7 @@ Question.prototype.render = function() {
     h('li.list-group-item', [
       h('div.row', [
           h('div.col-sm-8',
-            h('h2', 'Frage')
+            h('h3', 'Frage ' + (index + 1) + ' von ' + this.builder.questions.length)
           ),
           h('div.col-sm-4',
             h('button.btn.btn-primary-outline.btn-block', {
@@ -107,6 +109,15 @@ Question.prototype.update = function(options, equal) {
 
   // Finally kick off rendering
   this.builder.update({});
+
+  console.log(this.state);
+};
+
+Question.prototype.resetQuestion = function() {
+  
+  // Reset global state to initial state
+  this.update(this.initState, true);
+
 };
 
 module.exports = Question;

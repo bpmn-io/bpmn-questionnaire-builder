@@ -21,14 +21,16 @@ Questions.prototype.render = function(state) {
     );
 
     // Finally kick off rendering
-    that.builder.update({});
+    that.builder.update({
+      dirty: true
+    });
   }
 
   var questions = [];
 
-  this.builder.questions.forEach(function(question) {
+  this.builder.questions.forEach(function(question, index) {
     questions.push(
-      question.render()
+      question.render(index)
     );
   });
 

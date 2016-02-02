@@ -27,7 +27,7 @@ Download.prototype.render = function(state) {
   var html = [
     h('div.row', 
       h('div.col-md-12',
-        h('a.btn.btn-primary.btn-block', {
+        h('a.btn.btn-primary-outline.btn-block', {
           onclick: download
         }, 'Fragebogen speichern')
       )

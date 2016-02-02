@@ -93,14 +93,14 @@ BpmnQuestionnaireBuilder.prototype.update = function(options, equal) {
     this.state = options;
   } else {
     
-    // Update state
+    // Update state and mark as dirty
     assign(this.state, options);
   }
 
   // Finally push updated state to main-loop
   this.loop.update(this.state);
 
-  console.log(this.questionnaire.state);
+  console.log(this.state);
 };
 
 BpmnQuestionnaireBuilder.prototype.resetBuilder = function() {
@@ -142,7 +142,7 @@ BpmnQuestionnaireBuilder.createType = function(spec) {
     });
 
     var html = [
-      h('div.alert.alert-info', spec.type),
+      h('div.alert.alert-success', spec.type),
       content
     ];
 

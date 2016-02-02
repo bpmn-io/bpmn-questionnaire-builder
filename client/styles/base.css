@@ -10,3 +10,16 @@ body {
 .container {
   padding: 3rem 1.5rem;
 }
+
+.btn-primary-outline {
+  color: #52b415;
+  background-color: transparent;
+  border-color: #52b415
+}
+
+.btn-primary-outline:focus,
+.btn-primary-outline:hover {
+  color: #fff;
+  background-color: #52b415;
+  border-color: #52b415;
+}
