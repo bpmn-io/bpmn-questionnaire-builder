@@ -1,10 +1,22 @@
 'use strict';
 
 // virtual-dom
-var h = require('virtual-dom/h');
+var h             = require('virtual-dom/h');
 
-function Questionnaire(app) {
-  this.app = app;
+// lodash
+var assign        = require('lodash/assign'),
+    cloneDeep     = require('lodash/cloneDeep');
+
+function Questionnaire(builder) {
+  this.builder = builder;
+
+  this.initState = {
+    'name': '',
+    'intro': ''
+  };
+
+  // Set state to initial state by cloning instead of referencing
+  this.state = cloneDeep(this.initState);
 }
 
 Questionnaire.prototype.render = function(state) {
@@ -13,17 +25,17 @@ Questionnaire.prototype.render = function(state) {
 
   // Handler
   function newQuestionnaire() {
-    that.app.resetApp();
+    that.builder.resetBuilder();
   }
 
   function updateName(value) {
-    that.app.update({
+    that.update({
       name: value
     });
   }
 
   function updateIntro(value) {
-    that.app.update({
+    that.update({
       intro: value
     });
   }
@@ -56,7 +68,7 @@ Questionnaire.prototype.render = function(state) {
             h('div.col-sm-10',
               h('input.form-control', {
                 placeholder: 'Name',
-                value: state.name,
+                value: this.state.name,
                 onkeyup: function() {
                   updateName(this.value);
                 }
@@ -69,7 +81,7 @@ Questionnaire.prototype.render = function(state) {
               h('textarea.form-control', {
                 placeholder: 'Intro',
                 rows: 3,
-                value: state.intro,
+                value: this.state.intro,
                 onkeyup: function() {
                   updateIntro(this.value);
                 }
@@ -82,6 +94,32 @@ Questionnaire.prototype.render = function(state) {
   ];
 
   return html;
+};
+
+Questionnaire.prototype.update = function(options, equal) {
+
+  // Always clone to prevent mutation
+  options = cloneDeep(options);
+
+  if(equal) {
+
+    // Set state equal to options
+    this.state = options;
+  } else {
+    
+    // Update state
+    assign(this.state, options);
+  }
+
+  // Finally kick off rendering
+  this.builder.update({});
+};
+
+Questionnaire.prototype.resetQuestionnaire = function() {
+  
+  // Reset global state to initial state
+  this.update(this.initState, true);
+
 };
 
 module.exports = Questionnaire;

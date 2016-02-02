@@ -12,17 +12,22 @@ var assign        = require('lodash/assign'),
 
 // Components
 var Download      = require('./components/Download.js'),
+    Question      = require('./components/Question.js'),
     Questionnaire = require('./components/Questionnaire.js'),
-    Question      = require('./components/Question.js');
+    Questions     = require('./components/Questions.js');
 
 /**
  * Builder component.
  */
 function BpmnQuestionnaireBuilder(options) {
 
+  this.questionnaire = new Questionnaire(this);
+  this.questions = [];
+  this.types = options.types;
+
   // Global app state initialization
   this.initState = {
-    name: ''
+    dirty: false
   };
 
   // Set state to initial state by cloning instead of referencing
@@ -68,9 +73,9 @@ function BpmnQuestionnaireBuilder(options) {
 BpmnQuestionnaireBuilder.prototype.render = function() {
 
   return h('div.app', [
-    new Questionnaire(this).render(this.state),
+    this.questionnaire.render(this.state),
     h('hr'),
-    new Question(this).render(this.state),
+    new Questions(this).render(this.state),
     h('hr'),
     new Download(this).render(this.state)
   ]);
@@ -95,14 +100,56 @@ BpmnQuestionnaireBuilder.prototype.update = function(options, equal) {
   // Finally push updated state to main-loop
   this.loop.update(this.state);
 
-  console.log(this.state);
+  console.log(this.questionnaire.state);
 };
 
-BpmnQuestionnaireBuilder.prototype.resetApp = function() {
+BpmnQuestionnaireBuilder.prototype.resetBuilder = function() {
 
   // Reset global state to initial state
   this.update(this.initState, true);
 
+  // Reset components
+  this.questionnaire.resetQuestionnaire();
+  this.questions = [];
+
 }
+
+BpmnQuestionnaireBuilder.prototype.exportJSON = function() {
+
+  // Export questionnaire and questions
+
+}
+
+BpmnQuestionnaireBuilder.createType = function(spec) {
+  var render = function() {
+    
+    var content = [];
+    spec.options.forEach(function(option) {
+      content.push(
+        h('div.row',
+          h('div.col-sm-12',
+            h('form', [
+              h('div.form-group.row', [
+                h('label.col-sm-2', option.name),
+                h('div.col-sm-10',
+                  h(option.type + '.form-control')
+                )
+              ])
+            ])
+          )
+        )
+      );    
+    });
+
+    var html = [
+      h('div.alert.alert-info', spec.type),
+      content
+    ];
+
+    return html;
+  }
+
+  return render;
+};
 
 module.exports = BpmnQuestionnaireBuilder;
