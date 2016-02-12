@@ -182,8 +182,6 @@ Question.prototype.update = function(options, equal) {
 
   // Finally kick off rendering
   this.builder.update({});
-
-  console.log(this.state);
 };
 
 /** Export JSON */

@@ -22,7 +22,7 @@ var Download      = require('./components/Download.js'),
 function BpmnQuestionnaireBuilder(options) {
 
   this.questionnaire = new Questionnaire(this);
-
+  this.questions = [];
   this.types = options.types;
 
   // Global app state initialization
@@ -32,11 +32,6 @@ function BpmnQuestionnaireBuilder(options) {
 
   // Set state to initial state by cloning instead of referencing
   this.state = cloneDeep(this.initState);
-
-  // Initialize questionnaire with one question
-  this.questions = [
-    new Question(this)
-  ];
 
   // Set up loop
   this.loop = mainLoop(this.state, this.render.bind(this), {
@@ -72,6 +67,9 @@ function BpmnQuestionnaireBuilder(options) {
 
   // Append questionnaire
   this.container.appendChild(this.loop.target);
+
+  this.questions.push(new Question(this));
+  this.update({});
 
 }
 
