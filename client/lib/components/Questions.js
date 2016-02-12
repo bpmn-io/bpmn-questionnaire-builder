@@ -26,6 +26,7 @@ Questions.prototype.render = function(state) {
     });
   }
 
+  // Rendering
   var questions = [];
 
   this.builder.questions.forEach(function(question, index) {
@@ -34,14 +35,27 @@ Questions.prototype.render = function(state) {
     );
   });
 
+  var placeholder = 
+    h('li.list-group-item',
+      h('div.row',
+        h('div.col-sm-12',
+          h('h3', {
+            style: {
+              textAlign: 'center'
+            }
+          }, 'Keine Fragen')
+        )
+      )
+    );
+
   // Rendering
   var html = [
     h('div.row', [
-      h('div.col-sm-8',
+      h('div.col-sm-4',
         h('h2', 'Fragen')
       ),
-      h('div.col-sm-4',
-        h('button.btn.btn-primary-outline.btn-block', {
+      h('div.col-sm-8',
+        h('button.btn.btn-primary-outline.pull-sm-right', {
           onclick: addQuestion
         }, [
           h('i.fa.fa-plus', {
@@ -55,7 +69,7 @@ Questions.prototype.render = function(state) {
     ]),
     h('hr'),
     h('ul.list-group', 
-      questions
+      questions.length ? questions : placeholder
     )
   ];
 

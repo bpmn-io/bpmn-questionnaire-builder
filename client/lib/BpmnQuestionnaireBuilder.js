@@ -22,7 +22,7 @@ var Download      = require('./components/Download.js'),
 function BpmnQuestionnaireBuilder(options) {
 
   this.questionnaire = new Questionnaire(this);
-  this.questions = [];
+
   this.types = options.types;
 
   // Global app state initialization
@@ -32,6 +32,11 @@ function BpmnQuestionnaireBuilder(options) {
 
   // Set state to initial state by cloning instead of referencing
   this.state = cloneDeep(this.initState);
+
+  // Initialize questionnaire with one question
+  this.questions = [
+    new Question(this)
+  ];
 
   // Set up loop
   this.loop = mainLoop(this.state, this.render.bind(this), {
@@ -75,6 +80,7 @@ BpmnQuestionnaireBuilder.prototype.render = function() {
   return h('div.app', [
     this.questionnaire.render(this.state),
     h('hr'),
+    h('hr'),
     new Questions(this).render(this.state),
     h('hr'),
     new Download(this).render(this.state)
@@ -110,46 +116,77 @@ BpmnQuestionnaireBuilder.prototype.resetBuilder = function() {
 
   // Reset components
   this.questionnaire.resetQuestionnaire();
-  this.questions = [];
+  this.questions = [
+    new Question(this)
+  ];
 
 }
 
 BpmnQuestionnaireBuilder.prototype.exportJSON = function() {
 
   // Export questionnaire and questions
-
-}
-
-BpmnQuestionnaireBuilder.createType = function(spec) {
-  var render = function() {
-    
-    var content = [];
-    spec.options.forEach(function(option) {
-      content.push(
-        h('div.row',
-          h('div.col-sm-12',
-            h('form', [
-              h('div.form-group.row', [
-                h('label.col-sm-2', option.name),
-                h('div.col-sm-10',
-                  h(option.type + '.form-control')
-                )
-              ])
-            ])
-          )
-        )
-      );    
-    });
-
-    var html = [
-      h('div.alert.alert-success', spec.type),
-      content
-    ];
-
-    return html;
+  var json = {
+    name: this.questionnaire.exportJSON().name,
+    intro: this.questionnaire.exportJSON().intro,
+    questions: this.questions.map(function(question) {
+      return question.exportJSON();
+    })
   }
 
-  return render;
+  return json;
+}
+
+/**
+ * Creates a type and returns constructor.
+ *
+ * @param {Object} spec - Specification.
+ * @param {Object} spec.render - Render function.
+ * @param {Object} spec.exportJSON - Export function.
+ */
+BpmnQuestionnaireBuilder.createType = function(spec) {
+  if (!spec.render || !spec.exportJSON) {
+    throw new Error('You must specify the following functions: render, exportJSON');
+  }
+
+  var Type = function(question) {
+    this.question = question;
+    this.state = cloneDeep(spec.properties);
+
+    if (spec.init) {
+      spec.init.apply(this);
+    }
+  };
+
+  Type.prototype.render = function() {
+    return spec.render.apply(this);
+  }
+
+  Type.prototype.update = function(options, equal) {
+
+    // Always clone to prevent mutation
+    options = cloneDeep(options);
+
+    if(equal) {
+
+      // Set state equal to options
+      this.state = options;
+    } else {
+      
+      // Update state
+      assign(this.state, options);
+    }
+
+    // Finally kick off rendering
+    this.question.update({});
+
+    console.log(this.state);
+  }
+
+  Type.prototype.exportJSON = function() {
+    return spec.exportJSON.apply(this);
+  }
+
+  return Type;
 };
 
 module.exports = BpmnQuestionnaireBuilder;

@@ -8,44 +8,20 @@ var domReady                 = require('domready');
 // Components
 var BpmnQuestionnaireBuilder = require('./lib/BpmnQuestionnaireBuilder.js');
 
-// Utils
+// Types
+var interactive              = require('./lib/types/interactive.js'),
+    multiple                 = require('./lib/types/multiple.js'),
+    single                   = require('./lib/types/single.js');
 
 domReady(function () {
-
-  var single = BpmnQuestionnaireBuilder.createType({
-    options: [
-      {
-        type: 'textarea',
-        name: 'Text'
-      },
-      {
-        type: 'input',
-        name: 'URL'
-      }
-    ],
-    type: 'Single'
-  });
-
-  var multiple = BpmnQuestionnaireBuilder.createType({
-    options: [
-      {
-        type: 'input',
-        name: 'URL'
-      },
-      {
-        type: 'textarea',
-        name: 'Text'
-      }
-    ],
-    type: 'Multi'
-  });
 
   var builder = new BpmnQuestionnaireBuilder({
     container: 'container',
     types: {
-      single:   single,
-      multiple: multiple
+      single: single
     }
   });
+
+  window.builder = builder;
 
 });

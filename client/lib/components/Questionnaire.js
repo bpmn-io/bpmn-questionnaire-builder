@@ -1,11 +1,11 @@
 'use strict';
 
 // virtual-dom
-var h             = require('virtual-dom/h');
+var h         = require('virtual-dom/h');
 
 // lodash
-var assign        = require('lodash/assign'),
-    cloneDeep     = require('lodash/cloneDeep');
+var assign    = require('lodash/assign'),
+    cloneDeep = require('lodash/cloneDeep');
 
 function Questionnaire(builder) {
   this.builder = builder;
@@ -26,6 +26,10 @@ Questionnaire.prototype.render = function(state) {
   // Handler
   function newQuestionnaire() {
     that.builder.resetBuilder();
+  }
+
+  function loadQuestionnaire() {
+    alert('Noch nicht verfügbar.');
   }
 
   function updateName(value) {
@@ -51,21 +55,33 @@ Questionnaire.prototype.render = function(state) {
   // Rendering
   var html = [
     h('div.row', 
-      h('div.col-md-12', [
+      h('div.col-sm-12', [
         h('div.row', [
-          h('div.col-sm-8',
+          h('div.col-sm-4',
             h('h2', 'Fragebogen')
           ),
-          h('div.col-sm-4',
-            h('button.btn.btn-primary-outline.btn-block', {
-              onclick: newQuestionnaire
-            }, [
-              h('i.fa.fa-plus', {
-                style: {
-                  marginRight: '16px'
-                }
-              }),
-              'Neuer Fragebogen'
+          h('div.col-sm-8', 
+            h('div.btn-group.pull-sm-right', [
+              h('button.btn.btn-primary-outline', {
+                onclick: newQuestionnaire
+              }, [
+                h('i.fa.fa-plus', {
+                  style: {
+                    marginRight: '16px'
+                  }
+                }),
+                'Neuer Fragebogen'
+              ]),
+              h('button.btn.btn-primary-outline', {
+                onclick: loadQuestionnaire
+              }, [
+                h('i.fa.fa-folder-open', {
+                  style: {
+                    marginRight: '16px'
+                  }
+                }),
+                'Fragebogen laden'
+              ])
             ])
           )
         ]),
@@ -131,5 +147,17 @@ Questionnaire.prototype.resetQuestionnaire = function() {
   this.update(this.initState, true);
 
 };
+
+Questionnaire.prototype.exportJSON = function() {
+  console.log('Exporting questionnaire');
+  console.log('State', this.state);
+
+  var json = {
+    name: this.state.name,
+    intro: this.state.intro
+  };
+
+  return json;
+}
 
 module.exports = Questionnaire;

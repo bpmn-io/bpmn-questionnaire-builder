@@ -7,6 +7,10 @@ body {
   background-color: #52B415;
 }
 
+.fa-github {
+  margin-right: 8px; 
+}
+
 .container {
   max-width: 940px;
   padding: 3rem 1.5rem;
@@ -18,9 +22,40 @@ body {
   border-color: #52b415
 }
 
-.btn-primary-outline:focus,
+.btn-primary-outline:focus {
+  color: #52b415;
+  background-color: transparent;
+  border-color: #52b415;
+  outline: none;
+}
+
 .btn-primary-outline:hover {
   color: #fff;
   background-color: #52b415;
   border-color: #52b415;
+}
+
+.btn-secondary-outline:hover {
+    color: #55595c;
+}
+
+.form-control:focus {
+    border-color: #52b415;
+    outline: 0;
+}
+
+.form-group .input-group {
+  margin-bottom: 16px; 
+}
+
+.form-group .input-group:last-child {
+  margin-bottom: inherit; 
+}
+
+.c-input>input:checked~.c-indicator {
+    background-color: #52b415;
+}
+
+.c-input > input:focus ~ .c-indicator {
+    box-shadow: none;
 }
