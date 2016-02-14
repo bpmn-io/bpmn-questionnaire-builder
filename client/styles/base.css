@@ -35,10 +35,6 @@ body {
   border-color: #52b415;
 }
 
-.btn-secondary-outline:hover {
-    color: #55595c;
-}
-
 .form-control:focus {
     border-color: #52b415;
     outline: 0;
@@ -58,4 +54,9 @@ body {
 
 .c-input > input:focus ~ .c-indicator {
     box-shadow: none;
+}
+
+.modal {
+  display: inherit;
+  background-color: rgba(0, 0, 0, 0.2);
 }

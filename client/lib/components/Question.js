@@ -1,14 +1,14 @@
 'use strict';
 
 // virtual-dom
-var h             = require('virtual-dom/h');
+var h         = require('virtual-dom/h');
 
 // lodash
-var assign        = require('lodash/assign'),
-    cloneDeep     = require('lodash/cloneDeep'),
-    forIn         = require('lodash/forIn'),
-    keys          = require('lodash/keys'),
-    pullAt        = require('lodash/pullAt');
+var assign    = require('lodash/assign'),
+    cloneDeep = require('lodash/cloneDeep'),
+    forIn     = require('lodash/forIn'),
+    keys      = require('lodash/keys'),
+    pullAt    = require('lodash/pullAt');
 
 /**
  * Question component. Wraps a question and provides common functions like deleting and sorting.
@@ -96,7 +96,7 @@ Question.prototype.render = function(index) {
   if ((this.builder.questions.indexOf(this) + 1) < this.builder.questions.length) {
     buttons.push(
       h('button.btn.btn-primary-outline', {
-        onclick: moveQuestionDown
+        onclick: moveQuestionDown,
       }, [
         h('i.fa.fa-arrow-down', {
           style: {
@@ -107,6 +107,20 @@ Question.prototype.render = function(index) {
       ])
     );
   }
+
+  buttons.push(
+    h('button.btn.btn-primary-outline', {
+      onclick: removeQuestion,
+      disabled: (this.builder.questions.length > 1) ? '' : 'disabled'
+    }, [
+      h('i.fa.fa-trash', {
+        style: {
+          marginRight: '16px'
+        }
+      }),
+      'Löschen'
+    ])
+  );
 
   var options = [];
 
@@ -126,17 +140,7 @@ Question.prototype.render = function(index) {
         ),
         h('div.col-sm-8',
           h('div.btn-group.pull-sm-right', [
-            buttons,            
-            h('button.btn.btn-primary-outline', {
-              onclick: removeQuestion
-            }, [
-              h('i.fa.fa-trash', {
-                style: {
-                  marginRight: '16px'
-                }
-              }),
-              'Löschen'
-            ])
+            buttons
           ])          
         )
       ]),

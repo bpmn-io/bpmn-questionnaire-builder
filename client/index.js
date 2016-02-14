@@ -9,9 +9,7 @@ var domReady                 = require('domready');
 var BpmnQuestionnaireBuilder = require('./lib/BpmnQuestionnaireBuilder.js');
 
 // Types
-var interactive              = require('./lib/types/interactive.js'),
-    multiple                 = require('./lib/types/multiple.js'),
-    single                   = require('./lib/types/single.js');
+var single                   = require('./lib/types/single.js');
 
 domReady(function () {
 

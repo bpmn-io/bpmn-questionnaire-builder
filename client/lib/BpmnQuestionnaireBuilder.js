@@ -26,9 +26,7 @@ function BpmnQuestionnaireBuilder(options) {
   this.types = options.types;
 
   // Global app state initialization
-  this.initState = {
-    dirty: false
-  };
+  this.initState = {};
 
   // Set state to initial state by cloning instead of referencing
   this.state = cloneDeep(this.initState);
@@ -77,7 +75,6 @@ BpmnQuestionnaireBuilder.prototype.render = function() {
 
   return h('div.app', [
     this.questionnaire.render(this.state),
-    h('hr'),
     h('hr'),
     new Questions(this).render(this.state),
     h('hr'),

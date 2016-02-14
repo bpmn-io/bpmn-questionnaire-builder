@@ -1,11 +1,14 @@
 'use strict';
 
 // virtual-dom
-var h         = require('virtual-dom/h');
+var h            = require('virtual-dom/h');
 
 // lodash
-var assign    = require('lodash/assign'),
-    cloneDeep = require('lodash/cloneDeep');
+var assign       = require('lodash/assign'),
+    cloneDeep    = require('lodash/cloneDeep');
+
+// Components
+var ModalConfirm = require('./modals/ModalConfirm.js');
 
 function Questionnaire(builder) {
   this.builder = builder;
@@ -25,7 +28,9 @@ Questionnaire.prototype.render = function(state) {
 
   // Handler
   function newQuestionnaire() {
-    that.builder.resetBuilder();
+    that.update({
+      showModal: true
+    });
   }
 
   function loadQuestionnaire() {
@@ -36,23 +41,29 @@ Questionnaire.prototype.render = function(state) {
     that.update({
       name: value
     });
-    
-    that.builder.update({
-      dirty: true
-    });
   }
 
   function updateIntro(value) {
     that.update({
       intro: value
     });
-
-    that.builder.update({
-      dirty: true
-    });
   }
 
   // Rendering
+  var modals = [];
+
+  if (this.state.showModal) {
+    modals.push(
+      new ModalConfirm(this, {
+        title: 'Fragebogen verwerfen',
+        body: 'Soll der Fragebogen verworfen werden?',
+        onconfirm: function() {
+          that.builder.resetBuilder();
+        }
+      }).render()
+    );
+  }
+
   var html = [
     h('div.row', 
       h('div.col-sm-12', [
@@ -114,7 +125,8 @@ Questionnaire.prototype.render = function(state) {
           ])
         ])
       ])
-    )
+    ),
+    modals
   ];
 
   return html;

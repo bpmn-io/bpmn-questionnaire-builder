@@ -21,9 +21,7 @@ Questions.prototype.render = function(state) {
     );
 
     // Finally kick off rendering
-    that.builder.update({
-      dirty: true
-    });
+    that.builder.update({});
   }
 
   // Rendering
@@ -34,19 +32,6 @@ Questions.prototype.render = function(state) {
       question.render(index)
     );
   });
-
-  var placeholder = 
-    h('li.list-group-item',
-      h('div.row',
-        h('div.col-sm-12',
-          h('h3', {
-            style: {
-              textAlign: 'center'
-            }
-          }, 'Keine Fragen')
-        )
-      )
-    );
 
   // Rendering
   var html = [
@@ -69,7 +54,7 @@ Questions.prototype.render = function(state) {
     ]),
     h('hr'),
     h('ul.list-group', 
-      questions.length ? questions : placeholder
+      questions
     )
   ];
 

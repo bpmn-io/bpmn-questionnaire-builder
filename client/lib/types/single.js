@@ -5,7 +5,7 @@ var h                        = require('virtual-dom/h');
 
 // Components
 var BpmnQuestionnaireBuilder = require('../BpmnQuestionnaireBuilder.js'),
-    InputTextRemovable       = require('../components/inputs/InputTextRemovable.js');
+    InputGroupRadio          = require('../components/inputs/InputGroupRadio.js');
 
 // loadash
 var assign                   = require('lodash/assign'),
@@ -29,8 +29,21 @@ var single = BpmnQuestionnaireBuilder.createType({
       var answers = cloneDeep(that.state.answers);
 
       answers.push(
-        new InputTextRemovable(that, {
+        new InputGroupRadio(that, {
           placeholder: 'Antwort',
+          oncheck: function(input) {
+            that.update({
+              rightAnswer: [input.state.value]
+            });
+
+            that.state.answers.forEach(function(answer) {
+              if (answer !== input) {
+                answer.update({
+                  checked: false
+                });
+              }
+            });
+          },
           onremove: function(answer) {
             var answers = cloneDeep(that.state.answers);
 
@@ -67,15 +80,22 @@ var single = BpmnQuestionnaireBuilder.createType({
     // Rendering
     var answers = [];
 
-    this.state.answers.forEach(function(answer) {
-      answers.push(answer.render());
-    });
-
-    var options = this.state.answers.map(function(answer) {
-      return h('option', {
-        selected: (that.state.rightAnswer[0] === answer.state.value) ? 'selected' : ''
-      }, answer.state.value);
-    });
+    // Prevent deleting all answers
+    if (this.state.answers.length > 1) {
+      this.state.answers.forEach(function(answer) {
+        answers.push(
+          answer.render({
+            disableRemove: false
+          })
+        );
+      });
+    } else {
+      answers.push(
+        this.state.answers[0].render({
+          disableRemove: true
+        })
+      );
+    }
 
     var html = 
       h('div.row',
@@ -115,18 +135,6 @@ var single = BpmnQuestionnaireBuilder.createType({
                 ])
               )
             ),
-            h('div.form-group.row', [
-              h('label.col-sm-2', 'Richtige Antwort'),
-              h('div.col-sm-10',
-                h('select.form-control', {
-                  onchange: function() {
-                    updateRightAnswer(this.value);
-                  }
-                },
-                  options
-                )
-              )
-            ]),
             h('div.form-group.row', [
               h('label.col-sm-2', 'Prozessmodell'),
               h('div.col-sm-10',
@@ -169,8 +177,21 @@ var single = BpmnQuestionnaireBuilder.createType({
 
     // Initialize question with one answer
     answers.push(
-      new InputTextRemovable(this, {
+      new InputGroupRadio(this, {
         placeholder: 'Antwort',
+        oncheck: function(input) {
+          that.update({
+            rightAnswer: [input.state.value]
+          });
+
+          that.state.answers.forEach(function(answer) {
+            if (answer !== input) {
+              answer.update({
+                checked: false
+              });
+            }
+          });
+        },
         onremove: function(answer) {
           var answers = cloneDeep(that.state.answers);
 
