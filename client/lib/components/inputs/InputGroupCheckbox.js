@@ -8,9 +8,9 @@ var assign    = require('lodash/assign'),
     cloneDeep = require('lodash/cloneDeep');
 
 /**
- * Input component of type text with radio button.
+ * Input component of type text with checkbox.
  */
-function InputGroupRadio(parent, options) {
+function InputGroupCheckbox(parent, options) {
   console.log(options);
 
   this.parent      = parent;
@@ -29,7 +29,7 @@ function InputGroupRadio(parent, options) {
 
 }
 
-InputGroupRadio.prototype.render = function(options) {
+InputGroupCheckbox.prototype.render = function(options) {
 
   var that = this;
 
@@ -41,10 +41,12 @@ InputGroupRadio.prototype.render = function(options) {
   }
 
   function updateChecked() {
+    var checked = that.state.checked;
+
     that.oncheck(that);
 
     that.update({
-      checked: true
+      checked: checked ? false : true
     });
   }
 
@@ -94,7 +96,7 @@ InputGroupRadio.prototype.render = function(options) {
   return html;
 }
 
-InputGroupRadio.prototype.update = function(options, equal) {
+InputGroupCheckbox.prototype.update = function(options, equal) {
 
   // Always clone to prevent mutation
   options = cloneDeep(options);
@@ -114,11 +116,11 @@ InputGroupRadio.prototype.update = function(options, equal) {
   console.log(this.state);
 };
 
-InputGroupRadio.prototype.reset = function() {
+InputGroupCheckbox.prototype.reset = function() {
   
   // Reset global state to initial state
   this.update(this.initState, true);
 
 };
 
-module.exports = InputGroupRadio;
+module.exports = InputGroupCheckbox;

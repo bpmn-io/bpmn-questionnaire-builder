@@ -31,28 +31,8 @@ var single = BpmnQuestionnaireBuilder.createType({
       answers.push(
         new InputGroupRadio(that, {
           placeholder: 'Antwort',
-          oncheck: function(input) {
-            that.update({
-              rightAnswer: [input.state.value]
-            });
-
-            that.state.answers.forEach(function(answer) {
-              if (answer !== input) {
-                answer.update({
-                  checked: false
-                });
-              }
-            });
-          },
-          onremove: function(answer) {
-            var answers = cloneDeep(that.state.answers);
-
-            pullAt(answers, that.state.answers.indexOf(answer));
-
-            that.update({
-              answers: answers
-            });
-          }
+          oncheck: onCheck.bind(that),
+          onremove: onRemove.bind(that)
         })
       );
 
@@ -179,28 +159,8 @@ var single = BpmnQuestionnaireBuilder.createType({
     answers.push(
       new InputGroupRadio(this, {
         placeholder: 'Antwort',
-        oncheck: function(input) {
-          that.update({
-            rightAnswer: [input.state.value]
-          });
-
-          that.state.answers.forEach(function(answer) {
-            if (answer !== input) {
-              answer.update({
-                checked: false
-              });
-            }
-          });
-        },
-        onremove: function(answer) {
-          var answers = cloneDeep(that.state.answers);
-
-          pullAt(answers, that.state.answers.indexOf(answer));
-
-          that.update({
-            answers: answers
-          });
-        }
+        oncheck: onCheck.bind(that),
+        onremove: onRemove.bind(that)
       })
     );
 
@@ -216,7 +176,7 @@ var single = BpmnQuestionnaireBuilder.createType({
       answers: this.state.answers.map(function(answer) {
         return answer.state.value;
       }),
-      rightAnswer: this.state.rightAnswer.length ? this.state.rightAnswer : [this.state.answers[0].state.value]
+      rightAnswer: [this.state.rightAnswer[0].state.value]
     };
 
     if (this.state.diagram) {
@@ -231,5 +191,29 @@ var single = BpmnQuestionnaireBuilder.createType({
   }
 
 });
+
+function onCheck(input) {
+  this.update({
+    rightAnswer: [input]
+  });
+
+  this.state.answers.forEach(function(answer) {
+    if (answer !== input) {
+      answer.update({
+        checked: false
+      });
+    }
+  });
+}
+
+function onRemove(answer) {
+  var answers = cloneDeep(this.state.answers);
+
+  pullAt(answers, this.state.answers.indexOf(answer));
+
+  this.update({
+    answers: answers
+  });
+}
 
 module.exports = single;
