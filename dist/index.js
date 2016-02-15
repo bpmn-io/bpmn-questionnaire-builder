@@ -628,9 +628,6 @@ Questionnaire.prototype.resetQuestionnaire = function() {
 };
 
 Questionnaire.prototype.exportJSON = function() {
-  console.log('Exporting questionnaire');
-  console.log('State', this.state);
-
   var json = {
     name: this.state.name,
     intro: this.state.intro
