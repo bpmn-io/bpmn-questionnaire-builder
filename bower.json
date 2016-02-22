@@ -1,0 +1,24 @@
+{
+  "name": "bpmn-questionnaire-builder",
+  "description": "Create your own questionnaire on BPMN with ease.",
+  "main": "client/lib/index.js",
+  "authors": [
+    "Philipp Fromme"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "bpmn",
+    "bpmn-js",
+    "bpmn-questionnaire",
+    "builder"
+  ],
+  "homepage": "https://github.com/PHILIPPFROMME/bpmn-questionnaire-builder",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
