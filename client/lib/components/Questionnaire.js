@@ -150,7 +150,7 @@ Questionnaire.prototype.update = function(options, equal) {
   // Finally kick off rendering
   this.builder.update({});
 
-  console.log(this.state);
+  // console.log(this.state);
 };
 
 Questionnaire.prototype.resetQuestionnaire = function() {

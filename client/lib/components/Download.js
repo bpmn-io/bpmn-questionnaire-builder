@@ -17,7 +17,7 @@ Download.prototype.render = function(state) {
     // TODO Add validation
     var download = that.builder.exportJSON();
 
-    var string = JSON.stringify(download);
+    var string = JSON.stringify(download, null, '\t');
     var blob = new Blob([string], {type: "application/json"});
     var url  = URL.createObjectURL(blob);
 

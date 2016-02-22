@@ -11,7 +11,7 @@ var assign    = require('lodash/assign'),
  * Input component of type text with checkbox.
  */
 function InputGroupCheckbox(parent, options) {
-  console.log(options);
+  // console.log(options);
 
   this.parent      = parent;
   this.options     = options;
@@ -113,7 +113,7 @@ InputGroupCheckbox.prototype.update = function(options, equal) {
 
   this.parent.update({});
 
-  console.log(this.state);
+  // console.log(this.state);
 };
 
 InputGroupCheckbox.prototype.reset = function() {

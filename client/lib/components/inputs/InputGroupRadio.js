@@ -11,7 +11,7 @@ var assign    = require('lodash/assign'),
  * Input component of type text with radio button.
  */
 function InputGroupRadio(parent, options) {
-  console.log(options);
+  // console.log(options);
 
   this.parent      = parent;
   this.options     = options;
@@ -111,7 +111,7 @@ InputGroupRadio.prototype.update = function(options, equal) {
 
   this.parent.update({});
 
-  console.log(this.state);
+  // console.log(this.state);
 };
 
 InputGroupRadio.prototype.reset = function() {

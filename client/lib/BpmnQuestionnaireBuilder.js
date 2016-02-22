@@ -101,7 +101,7 @@ BpmnQuestionnaireBuilder.prototype.update = function(options, equal) {
   // Finally push updated state to main-loop
   this.loop.update(this.state);
 
-  console.log(this.state);
+  // console.log(this.state);
 };
 
 BpmnQuestionnaireBuilder.prototype.resetBuilder = function() {
@@ -174,7 +174,7 @@ BpmnQuestionnaireBuilder.createType = function(spec) {
     // Finally kick off rendering
     this.question.update({});
 
-    console.log(this.state);
+    // console.log(this.state);
   }
 
   Type.prototype.exportJSON = function() {

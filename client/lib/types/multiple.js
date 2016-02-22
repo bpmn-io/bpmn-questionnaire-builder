@@ -208,9 +208,9 @@ function onCheck(input) {
     // rightAnswers: rightAnswers
   });
 
-  console.log('rightAnswers', this.state.rightAnswers.map(function(input) {
-    return input.state.value;
-  }));
+  // console.log('rightAnswers', this.state.rightAnswers.map(function(input) {
+  //   return input.state.value;
+  // }));
 }
 
 function onRemove(answer) {
