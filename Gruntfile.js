@@ -44,7 +44,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-watch');
 
-  grunt.registerTask('default', [ 'build' ]);
   grunt.registerTask('build', [ 'browserify:dist', 'copy:dist', 'cssmin:dist' ]);
   grunt.registerTask('auto-build', ['watch'])
 
